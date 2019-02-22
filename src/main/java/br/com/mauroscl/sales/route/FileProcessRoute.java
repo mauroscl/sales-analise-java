@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class FileProcessRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
-        from("file:data/in")
+        from("file:data/in?include=.*.dat")
                 .to("file:data/out");
 
     }
