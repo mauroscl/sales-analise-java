@@ -1,0 +1,30 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.3.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'idea'
+
+group = 'br.com.mauroscl'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+}
+
+ext	{
+	jaxbVersion = '2.3.0'
+}
+
+
+dependencies {
+	implementation 'org.apache.camel:camel-spring-boot-starter:2.23.1'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile 'com.sun.activation:javax.activation:1.2.0'
+	compile "javax.xml.bind:jaxb-api:${jaxbVersion}"
+	compile "com.sun.xml.bind:jaxb-core:${jaxbVersion}"
+	compile "com.sun.xml.bind:jaxb-impl:${jaxbVersion}"
+}
