@@ -2,12 +2,10 @@ package br.com.mauroscl.sales.service;
 
 import br.com.mauroscl.sales.model.Sale;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
 
 public class SaleProcessorTest {
 
@@ -20,5 +18,4 @@ public class SaleProcessorTest {
         assertEquals(3, sale.getItems().size());
         assertEquals(Double.valueOf(1199), sale.getTotal());
     }
-
 }

@@ -1,15 +1,21 @@
 package br.com.mauroscl.sales.model;
 
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.List;
 
 @Setter
-@ToString
 public class SaleSummary {
-    private int totalSalesman;
-    private int totalCustomer;
+    private int amountSalesman;
+    private int amountCustomer;
     private List<String> worstSellers;
     private List<String> mostExpensiveSales;
+
+    @Override
+    public String toString() {
+        return "amountSalesman=" + amountSalesman + "\r\n" +
+                "amountCustomer=" + amountCustomer + "\r\n" +
+                "worstSellers=" + worstSellers + "\r\n" +
+                "mostExpensiveSales=" + mostExpensiveSales;
+    }
 }

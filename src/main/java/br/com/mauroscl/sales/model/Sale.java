@@ -25,6 +25,6 @@ public class Sale {
     }
 
     public List<SaleItem> getItems() {
-        return Collections.unmodifiableList(this.getItems());
+        return Collections.unmodifiableList(this.items);
     }
 }

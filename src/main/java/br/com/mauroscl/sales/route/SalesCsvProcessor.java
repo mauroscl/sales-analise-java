@@ -37,8 +37,8 @@ public class SalesCsvProcessor implements Processor {
         SaleAnalyser saleAnalyser = new SaleAnalyser();
 
         SaleSummary saleSummary = new SaleSummary();
-        saleSummary.setTotalSalesman(countSalesman);
-        saleSummary.setTotalCustomer(countCustomer);
+        saleSummary.setAmountSalesman(countSalesman);
+        saleSummary.setAmountCustomer(countCustomer);
         saleSummary.setMostExpensiveSales(saleAnalyser.getMostExpensiveSales(sales));
         saleSummary.setWorstSellers(saleAnalyser.getWorstSellers(sales));
 
