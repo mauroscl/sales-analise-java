@@ -15,11 +15,13 @@ repositories {
 
 ext	{
 	jaxbVersion = '2.3.0'
+	camelVersion = '2.23.1'
 }
 
 
 dependencies {
-	implementation 'org.apache.camel:camel-spring-boot-starter:2.23.1'
+	implementation "org.apache.camel:camel-spring-boot-starter:${camelVersion}"
+	compile "org.apache.camel:camel-csv-starter:${camelVersion}"
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
