@@ -18,11 +18,11 @@ ext	{
 	camelVersion = '2.23.1'
 }
 
-
 dependencies {
 	implementation "org.apache.camel:camel-spring-boot-starter:${camelVersion}"
 	compile "org.apache.camel:camel-csv-starter:${camelVersion}"
 //	compile "org.apache.camel:camel-bindy-starter:${camelVersion}"
+	testCompile "org.apache.camel:camel-test-spring:${camelVersion}"	
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

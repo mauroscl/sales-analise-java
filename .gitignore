@@ -28,3 +28,6 @@ HELP.md
 
 #sales data files
 data
+
+#camel unit test target xml
+/target/
