@@ -2,10 +2,13 @@ package br.com.mauroscl.sales.infra;
 
 import br.com.mauroscl.sales.domain.Sale;
 import br.com.mauroscl.sales.domain.SaleItem;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class SaleProcessor {
@@ -21,30 +24,41 @@ public class SaleProcessor {
     private static final int SALEITEM_QUANTITY_INDEX = 1;
     private static final int SALEITEM_PRICE_INDEX = 2;
 
-    public Sale processSale(final List<String> saleRow) throws Exception {
+    private static final String INVALID_ROW_MESSAGE = "Invalid sale row";
+
+    private static final Logger logger = LogManager.getLogger(SaleProcessor.class);
+
+    public Optional<Sale> processSale(final List<String> saleRow) {
 
         if (saleRow.size() != 4) {
-            throw new Exception("Linha inválida");
+            logInvalidRow(saleRow);
+            return Optional.empty();
         }
 
-        Sale sale = new Sale();
-        sale.setId(saleRow.get(SALE_ID_INDEX));
-        sale.setSalesman(saleRow.get(SALESMAN_INDEX));
+        try {
+            Sale sale = new Sale();
+            sale.setId(saleRow.get(SALE_ID_INDEX));
+            sale.setSalesman(saleRow.get(SALESMAN_INDEX));
 
-        String serializedSaleItens = saleRow.get(SALES_ITENS_INDEX);
-        List<SaleItem> saleItems = processItens(serializedSaleItens);
-        sale.setItems(saleItems);
+            String serializedSaleItens = saleRow.get(SALES_ITENS_INDEX);
+            List<SaleItem> saleItems = processItens(serializedSaleItens);
+            sale.setItems(saleItems);
 
-        return sale;
+            return Optional.of(sale) ;
+        } catch (Exception e) {
+            logInvalidRow(saleRow);
+            logger.warn(e.getMessage());
+            return Optional.empty();
+        }
     }
 
-    private List<SaleItem> processItens(final String serializedSaleItens){
+    private List<SaleItem> processItens(final String serializedSaleItens) {
         var itens = new ArrayList<SaleItem>();
 
         String[] splitedItens = serializedSaleItens
                 .substring(1, serializedSaleItens.length() - 1)
                 .split(ITEMS_DELIMITER);
-        for(int i = 0; i < splitedItens.length; i++) {
+        for (int i = 0; i < splitedItens.length; i++) {
             itens.add(processItem(splitedItens[i]));
         }
         return itens;
@@ -57,6 +71,10 @@ public class SaleProcessor {
         saleItem.setQuantity(Double.valueOf(splitedValues[SALEITEM_QUANTITY_INDEX]));
         saleItem.setPrice(Double.valueOf(splitedValues[SALEITEM_PRICE_INDEX]));
         return saleItem;
+    }
+
+    private void logInvalidRow(List<String> saleRow){
+        logger.warn(INVALID_ROW_MESSAGE + ": " + saleRow);
     }
 
 }

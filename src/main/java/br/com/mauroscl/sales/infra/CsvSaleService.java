@@ -21,9 +21,9 @@ public class CsvSaleService implements ICsvSaleService {
         int amountCustomer = 0;
         List<Sale> sales = new ArrayList<>();
         SaleProcessor saleProcessor = new SaleProcessor();
-        for(var row: csvRows){
+        for (var row : csvRows) {
             String rowType = row.get(0);
-            switch (rowType){
+            switch (rowType) {
                 case SALESMAN_PREFIX:
                     amountSalesman++;
                     break;
@@ -31,13 +31,8 @@ public class CsvSaleService implements ICsvSaleService {
                     amountCustomer++;
                     break;
                 case SALES_PREFIX:
-                    Sale sale = null;
-                    try {
-                        sale = saleProcessor.processSale(row);
-                        sales.add(sale);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    saleProcessor.processSale(row)
+                            .ifPresent(sale -> sales.add(sale));
             }
         }
 

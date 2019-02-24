@@ -56,7 +56,7 @@ public class FileProcessRouteTest {
         //Thread.sleep is necessary only when running all tests at same time by IntelliJ.
         //Running only this test in Intellij works without sleep
         //Running all tests by gradle works without sleep
-        Thread.sleep(1000);
+        //Thread.sleep(500);
 
         final String inputFileContent =
                 "001ç1234567891234çDiegoç50000\r\n" +
@@ -72,7 +72,6 @@ public class FileProcessRouteTest {
                         "worstSellers=[Renato]\r\n" +
                         "mostExpensiveSales=[10]";
 
-        mockOutputFile.expectedMessageCount(1);
         mockOutputFile.expectedBodiesReceived(expectedOutPutFileContent);
 
         producerTemplate.sendBodyAndHeader(URI_FILE_INPUT,inputFileContent,
