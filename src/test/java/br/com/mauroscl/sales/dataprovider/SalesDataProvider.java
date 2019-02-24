@@ -1,7 +1,7 @@
 package br.com.mauroscl.sales.dataprovider;
 
-import br.com.mauroscl.sales.model.Sale;
-import br.com.mauroscl.sales.model.SaleItem;
+import br.com.mauroscl.sales.domain.Sale;
+import br.com.mauroscl.sales.domain.SaleItem;
 
 import java.util.List;
 

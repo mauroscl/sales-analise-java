@@ -1,7 +1,8 @@
-package br.com.mauroscl.sales.service;
+package br.com.mauroscl.sales.domain;
 
 import br.com.mauroscl.sales.dataprovider.SalesDataProvider;
-import br.com.mauroscl.sales.model.Sale;
+import br.com.mauroscl.sales.domain.Sale;
+import br.com.mauroscl.sales.domain.SaleAnalyser;
 import org.junit.Test;
 
 import java.util.Collections;

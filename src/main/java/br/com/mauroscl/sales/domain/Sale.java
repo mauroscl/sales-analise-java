@@ -1,4 +1,4 @@
-package br.com.mauroscl.sales.model;
+package br.com.mauroscl.sales.domain;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,7 @@
-package br.com.mauroscl.sales.service;
+package br.com.mauroscl.sales.infra;
 
-import br.com.mauroscl.sales.model.Sale;
-import br.com.mauroscl.sales.model.SaleItem;
+import br.com.mauroscl.sales.domain.Sale;
+import br.com.mauroscl.sales.domain.SaleItem;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -21,7 +21,12 @@ public class SaleProcessor {
     private static final int SALEITEM_QUANTITY_INDEX = 1;
     private static final int SALEITEM_PRICE_INDEX = 2;
 
-    public Sale processSale(final List<String> saleRow) {
+    public Sale processSale(final List<String> saleRow) throws Exception {
+
+        if (saleRow.size() != 4) {
+            throw new Exception("Linha inválida");
+        }
+
         Sale sale = new Sale();
         sale.setId(saleRow.get(SALE_ID_INDEX));
         sale.setSalesman(saleRow.get(SALESMAN_INDEX));

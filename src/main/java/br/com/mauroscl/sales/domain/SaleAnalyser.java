@@ -1,13 +1,16 @@
-package br.com.mauroscl.sales.service;
+package br.com.mauroscl.sales.domain;
 
-import br.com.mauroscl.sales.model.Sale;
+import br.com.mauroscl.sales.domain.Sale;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SaleAnalyser {
+@Component
+public class SaleAnalyser implements ISaleAnalyser {
+    @Override
     public List<String> getMostExpensiveSales(List<Sale> sales) {
         if (sales.isEmpty()){
             return Collections.emptyList();
@@ -21,6 +24,7 @@ public class SaleAnalyser {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public List<String> getWorstSellers(List<Sale> sales) {
         if (sales.isEmpty()){
             return Collections.emptyList();
