@@ -1,8 +1,6 @@
 package br.com.mauroscl.sales.domain;
 
 import br.com.mauroscl.sales.dataprovider.SalesDataProvider;
-import br.com.mauroscl.sales.domain.Sale;
-import br.com.mauroscl.sales.domain.SaleAnalyser;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -13,10 +11,10 @@ import static org.junit.Assert.assertTrue;
 
 public class SaleAnalyserTest {
 
-    private SaleAnalyser saleAnalyser;
+    private SaleStatisticsService saleAnalyser;
 
     public SaleAnalyserTest() {
-        saleAnalyser = new SaleAnalyser();
+        saleAnalyser = new SaleStatisticsService();
     }
 
     @Test

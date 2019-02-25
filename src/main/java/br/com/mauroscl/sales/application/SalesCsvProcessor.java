@@ -1,4 +1,4 @@
-package br.com.mauroscl.sales.ports;
+package br.com.mauroscl.sales.application;
 
 import br.com.mauroscl.sales.domain.*;
 import org.apache.camel.Exchange;
@@ -12,12 +12,12 @@ import java.util.List;
 public class SalesCsvProcessor implements Processor {
 
     private ICsvSaleService csvSaleService;
-    private ISaleAnalyser saleAnalyser;
+    private ISaleStatisticsService saleStatisticsService;
 
     @Autowired
-    public SalesCsvProcessor(final ICsvSaleService csvSaleService, final ISaleAnalyser saleAnalyser) {
+    public SalesCsvProcessor(final ICsvSaleService csvSaleService, final ISaleStatisticsService saleStatisticsService) {
         this.csvSaleService = csvSaleService;
-        this.saleAnalyser = saleAnalyser;
+        this.saleStatisticsService = saleStatisticsService;
     }
 
     @Override
@@ -29,8 +29,8 @@ public class SalesCsvProcessor implements Processor {
         SaleSummary saleSummary = new SaleSummary();
         saleSummary.setAmountSalesman(saleContext.getAmountSalesman());
         saleSummary.setAmountCustomer(saleContext.getAmountCustomer());
-        saleSummary.setMostExpensiveSales(saleAnalyser.getMostExpensiveSales(saleContext.getSales()));
-        saleSummary.setWorstSellers(saleAnalyser.getWorstSellers(saleContext.getSales()));
+        saleSummary.setMostExpensiveSales(saleStatisticsService.getMostExpensiveSales(saleContext.getSales()));
+        saleSummary.setWorstSellers(saleStatisticsService.getWorstSellers(saleContext.getSales()));
 
         exchange.getOut().setBody(saleSummary);
 

@@ -1,7 +1,7 @@
-package br.com.mauroscl.sales.ports;
+package br.com.mauroscl.sales.application;
 
 import br.com.mauroscl.sales.domain.ICsvSaleService;
-import br.com.mauroscl.sales.domain.ISaleAnalyser;
+import br.com.mauroscl.sales.domain.ISaleStatisticsService;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.CsvDataFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 public class FileProcessRoute extends RouteBuilder {
 
     private ICsvSaleService csvSaleService;
-    private ISaleAnalyser saleAnalyser;
+    private ISaleStatisticsService saleAnalyser;
 
     public static final String FILE_PROCESS_ROUTE = "FILE_PROCESSOR";
 
     @Autowired
-    public FileProcessRoute(final ICsvSaleService csvSaleService, final ISaleAnalyser saleAnalyser) {
+    public FileProcessRoute(final ICsvSaleService csvSaleService, final ISaleStatisticsService saleAnalyser) {
         this.csvSaleService = csvSaleService;
         this.saleAnalyser = saleAnalyser;
     }

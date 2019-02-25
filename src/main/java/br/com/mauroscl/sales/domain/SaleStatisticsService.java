@@ -1,6 +1,5 @@
 package br.com.mauroscl.sales.domain;
 
-import br.com.mauroscl.sales.domain.Sale;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -9,7 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class SaleAnalyser implements ISaleAnalyser {
+public class SaleStatisticsService implements ISaleStatisticsService {
     @Override
     public List<String> getMostExpensiveSales(List<Sale> sales) {
         if (sales.isEmpty()){

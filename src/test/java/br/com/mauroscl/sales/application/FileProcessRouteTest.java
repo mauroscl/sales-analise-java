@@ -1,4 +1,4 @@
-package br.com.mauroscl.sales.ports;
+package br.com.mauroscl.sales.application;
 
 import br.com.mauroscl.sales.SalesApplication;
 import org.apache.camel.*;
@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static br.com.mauroscl.sales.ports.FileProcessRoute.FILE_PROCESS_ROUTE;
+import static br.com.mauroscl.sales.application.FileProcessRoute.FILE_PROCESS_ROUTE;
 
 
 @RunWith(CamelSpringBootRunner.class)
