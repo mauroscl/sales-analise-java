@@ -26,11 +26,12 @@ public class SalesCsvProcessor implements Processor {
 
         SaleContext saleContext = csvSaleService.loadContext(rows);
 
-        SaleSummary saleSummary = new SaleSummary();
-        saleSummary.setAmountSalesman(saleContext.getAmountSalesman());
-        saleSummary.setAmountCustomer(saleContext.getAmountCustomer());
-        saleSummary.setMostExpensiveSales(saleStatisticsService.getMostExpensiveSales(saleContext.getSales()));
-        saleSummary.setWorstSellers(saleStatisticsService.getWorstSellers(saleContext.getSales()));
+        SaleSummary saleSummary = SaleSummary.builder()
+                .amountSalesman(saleContext.getAmountSalesman())
+                .amountCustomer(saleContext.getAmountCustomer())
+                .mostExpensiveSales(saleStatisticsService.getMostExpensiveSales(saleContext.getSales()))
+                .worstSellers(saleStatisticsService.getWorstSellers(saleContext.getSales()))
+                .build();
 
         exchange.getOut().setBody(saleSummary);
 

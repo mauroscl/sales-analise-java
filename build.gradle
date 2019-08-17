@@ -15,7 +15,7 @@ repositories {
 
 ext {
     jaxbVersion = '2.3.0'
-    camelVersion = '2.23.1'
+    camelVersion = '2.24.1'
 }
 
 dependencies {

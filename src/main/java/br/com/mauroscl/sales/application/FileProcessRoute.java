@@ -34,7 +34,7 @@ public class FileProcessRoute extends RouteBuilder {
                 .log("Processando arquivo: ${file:name}")
                 .unmarshal(new CsvDataFormat("ç"))
                 .process(new SalesCsvProcessor(csvSaleService, saleAnalyser))
-                .marshal().string()
+                .marshal(new SaleSummaryDataFormat())
                 .to("file:data/out?fileName=${file:name.noext}.done.${file:ext}");
     }
 }
