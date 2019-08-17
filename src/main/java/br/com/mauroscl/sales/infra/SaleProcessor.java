@@ -36,15 +36,15 @@ public class SaleProcessor {
         }
 
         try {
-            Sale sale = new Sale();
-            sale.setId(saleRow.get(SALE_ID_INDEX));
-            sale.setSalesman(saleRow.get(SALESMAN_INDEX));
+            String saleId = saleRow.get(SALE_ID_INDEX);
+            String salesman = saleRow.get(SALESMAN_INDEX);
+            Sale sale = new Sale(saleId, salesman);
 
             String serializedSaleItens = saleRow.get(SALES_ITENS_INDEX);
             List<SaleItem> saleItems = processItens(serializedSaleItens);
-            sale.setItems(saleItems);
+            sale.addItems(saleItems);
 
-            return Optional.of(sale) ;
+            return Optional.of(sale);
         } catch (Exception e) {
             logInvalidRow(saleRow);
             logger.warn(e.getMessage());
@@ -66,14 +66,17 @@ public class SaleProcessor {
 
     private SaleItem processItem(final String serializedItem) {
         String[] splitedValues = serializedItem.split(VALUES_DELIMITER);
-        SaleItem saleItem = new SaleItem();
-        saleItem.setId(splitedValues[SALEITEM_ID_INDEX]);
-        saleItem.setQuantity(Double.valueOf(splitedValues[SALEITEM_QUANTITY_INDEX]));
-        saleItem.setPrice(Double.valueOf(splitedValues[SALEITEM_PRICE_INDEX]));
+
+        String itemId = splitedValues[SALEITEM_ID_INDEX];
+        Double quantity = Double.valueOf(splitedValues[SALEITEM_QUANTITY_INDEX]);
+        Double price = Double.valueOf(splitedValues[SALEITEM_PRICE_INDEX]);
+
+        SaleItem saleItem = new SaleItem(itemId, quantity, price);
+
         return saleItem;
     }
 
-    private void logInvalidRow(List<String> saleRow){
+    private void logInvalidRow(List<String> saleRow) {
         logger.warn(INVALID_ROW_MESSAGE + ": " + saleRow);
     }
 

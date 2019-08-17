@@ -15,11 +15,11 @@ public class SaleStatisticsService implements ISaleStatisticsService {
             return Collections.emptyList();
         }
 
-        Double maxSaleValue = Collections.max(sales.stream().map(sale -> sale.getTotal()).collect(Collectors.toList()));
+        Double maxSaleValue = Collections.max(sales.stream().map(Sale::getTotal).collect(Collectors.toList()));
 
         return sales.stream()
                 .filter(sale -> sale.getTotal().equals(maxSaleValue))
-                .map(sale -> sale.getId())
+                .map(Sale::getId)
                 .collect(Collectors.toList());
     }
 
@@ -30,13 +30,13 @@ public class SaleStatisticsService implements ISaleStatisticsService {
         }
 
         Map<String, Double> salesmanByTotal = sales.stream()
-                .collect(Collectors.groupingBy(sale -> sale.getSalesman(), Collectors.summingDouble(sale -> sale.getTotal())));
+                .collect(Collectors.groupingBy(Sale::getSalesman, Collectors.summingDouble(Sale::getTotal)));
         Double minSaleValueBySalesman = Collections.min(salesmanByTotal.values());
 
         return salesmanByTotal.entrySet()
                 .stream()
                 .filter(item -> item.getValue().equals(minSaleValueBySalesman))
-                .map(item -> item.getKey())
+                .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
 }

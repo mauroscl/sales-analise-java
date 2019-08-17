@@ -23,9 +23,8 @@ public class SaleProcessorTest {
     @Test
     public void mustIgnoreSaleRowWithBadFormat() {
         SaleProcessor saleProcessor = new SaleProcessor();
-        assertFalse(saleProcessor.processSale(List.of("003", "[1-10-100,2-30-2.50,3-40-3.10]", "Diego")).isPresent()); ;
-
-    }
+        assertFalse(saleProcessor.processSale(List.of("003", "[1-10-100,2-30-2.50,3-40-3.10]", "Diego")).isPresent());
+   }
 
     @Test
     public void mustIgnoreSaleRowWithInvalidItems() {

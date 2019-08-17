@@ -12,7 +12,8 @@ public class CsvSaleServiceTest {
 
     @Test
     public void mustLoadSaleContext() throws Exception {
-        ICsvSaleService csvSaleService = new CsvSaleService();
+        SaleProcessor saleProcessor = new SaleProcessor();
+        ICsvSaleService csvSaleService = new CsvSaleService(saleProcessor);
 
         var csvRows = List.of(
                 List.of("001", "1234567891234", "Diego", "50000"),

@@ -1,6 +1,6 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.3.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.1.3.RELEASE'
+    id 'java'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -10,24 +10,24 @@ group = 'br.com.mauroscl'
 version = '0.0.1-SNAPSHOT'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-ext	{
-	jaxbVersion = '2.3.0'
-	camelVersion = '2.23.1'
+ext {
+    jaxbVersion = '2.3.0'
+    camelVersion = '2.23.1'
 }
 
 dependencies {
-	implementation "org.apache.camel:camel-spring-boot-starter:${camelVersion}"
-	compile "org.apache.camel:camel-csv-starter:${camelVersion}"
-	testCompile "org.apache.camel:camel-test-spring:${camelVersion}"	
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	compile 'com.sun.activation:javax.activation:1.2.0'
-	compile "javax.xml.bind:jaxb-api:${jaxbVersion}"
-	compile "com.sun.xml.bind:jaxb-core:${jaxbVersion}"
-	compile "com.sun.xml.bind:jaxb-impl:${jaxbVersion}"
-	//compile 'log4j:log4j:1.2.17'	
+    implementation "org.apache.camel:camel-spring-boot-starter:${camelVersion}"
+    compile "org.apache.camel:camel-csv-starter:${camelVersion}"
+    testCompile "org.apache.camel:camel-test-spring:${camelVersion}"
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compile 'com.sun.activation:javax.activation:1.2.0'
+    compile "javax.xml.bind:jaxb-api:${jaxbVersion}"
+    compile "com.sun.xml.bind:jaxb-core:${jaxbVersion}"
+    compile "com.sun.xml.bind:jaxb-impl:${jaxbVersion}"
+    //compile 'log4j:log4j:1.2.17'
 }

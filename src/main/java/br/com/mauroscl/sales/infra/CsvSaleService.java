@@ -15,12 +15,17 @@ public class CsvSaleService implements ICsvSaleService {
     private static final String CUSTOMER_PREFIX = "002";
     private static final String SALES_PREFIX = "003";
 
+    private final SaleProcessor saleProcessor;
+
+    public CsvSaleService(final SaleProcessor saleProcessor) {
+        this.saleProcessor = saleProcessor;
+    }
+
     @Override
     public SaleContext loadContext(final List<List<String>> csvRows) {
         int amountSalesman = 0;
         int amountCustomer = 0;
         List<Sale> sales = new ArrayList<>();
-        SaleProcessor saleProcessor = new SaleProcessor();
         for (var row : csvRows) {
             String rowType = row.get(0);
             switch (rowType) {

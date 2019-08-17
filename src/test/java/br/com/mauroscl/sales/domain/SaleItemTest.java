@@ -7,9 +7,7 @@ public class SaleItemTest {
 
     @Test
     public void mustCalculateTotalOfItem(){
-        SaleItem saleItem = new SaleItem();
-        saleItem.setPrice(10);
-        saleItem.setQuantity(4);
+        SaleItem saleItem = new SaleItem("1", 4, 10);
         Assert.assertTrue(Double.valueOf(40).equals(saleItem.getTotal()));
     }
 
