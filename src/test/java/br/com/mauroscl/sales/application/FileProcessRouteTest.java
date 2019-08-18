@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static br.com.mauroscl.sales.application.FileProcessRoute.FILE_PROCESS_ROUTE;
 
@@ -20,6 +21,7 @@ import static br.com.mauroscl.sales.application.FileProcessRoute.FILE_PROCESS_RO
 @SpringBootTest(classes = SalesApplication.class)
 @EnableRouteCoverage
 @MockEndpoints
+@ActiveProfiles("test")
 public class FileProcessRouteTest {
 
     private static final String URI_FILE_INPUT = "file:data/in";
@@ -66,13 +68,13 @@ public class FileProcessRouteTest {
                         "003ç10ç[1-10-100,2-30-2.50,3-40-3.10]çDiego\r\n" +
                         "003ç08ç[1-34-10,2-33-1.50,3-40-0.10]çRenato";
 
-        final String expectedOutPutFileContent =
+        final String expectedOutputFileContent =
                 "amountSalesman=2\r\n" +
                         "amountCustomer=2\r\n" +
                         "worstSellers=[Renato]\r\n" +
                         "mostExpensiveSales=[10]";
 
-        mockOutputFile.expectedBodiesReceived(expectedOutPutFileContent);
+        mockOutputFile.expectedBodiesReceived(expectedOutputFileContent);
 
         producerTemplate.sendBodyAndHeader(URI_FILE_INPUT,inputFileContent,
                 Exchange.FILE_NAME, "arquivo1.dat");

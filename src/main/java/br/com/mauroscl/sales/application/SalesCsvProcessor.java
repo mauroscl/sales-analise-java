@@ -1,6 +1,7 @@
 package br.com.mauroscl.sales.application;
 
 import br.com.mauroscl.sales.domain.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@Slf4j
 public class SalesCsvProcessor implements Processor {
 
     private ICsvSaleService csvSaleService;
@@ -22,6 +24,9 @@ public class SalesCsvProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
+
+        log.info("Thread - Id: {} - Name: {}", Thread.currentThread().getId(), Thread.currentThread().getName());
+
         var rows = (List<List<String>>) exchange.getIn().getBody();
 
         SaleContext saleContext = csvSaleService.loadContext(rows);
