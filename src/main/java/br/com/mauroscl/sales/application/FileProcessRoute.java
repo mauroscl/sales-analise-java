@@ -14,7 +14,8 @@ public class FileProcessRoute extends RouteBuilder {
     private final int concurrentConsumers;
     private final SalesCsvProcessor salesCsvProcessor;
 
-    public static final String FILE_PROCESS_ROUTE = "FILE_ROUTE";
+    public static final String SEDA_PROCESS_ROUTE = "SEDA_ROUTE";
+
     private static final String SEDA_URI = "hazelcast-seda:csvfile";
 
     public FileProcessRoute(@Value("${concurrent-consumers}") final int concurrentConsumers,
@@ -31,15 +32,15 @@ public class FileProcessRoute extends RouteBuilder {
                 .maximumRedeliveries(0)
                 .handled(true);
 
-        from("file:data/in?include=.*.dat&noop=true")
-                .routeId(FILE_PROCESS_ROUTE)
+        from("file:data/in?include=.*.dat")
                 .process(exchange -> {
                     exchange.getOut().setBody(exchange.getIn().getBody(String.class));
-                    exchange.getOut().setHeader(Exchange.FILE_NAME, exchange.getIn().getHeader(Exchange.FILE_NAME));
+                    ExchangeUtils.copyHeader(exchange, Exchange.FILE_NAME);
                 })
                 .to(SEDA_URI + "?transferExchange=true" );
 
         from(createSedaUriForConsumers(SEDA_URI, concurrentConsumers))
+                .routeId(SEDA_PROCESS_ROUTE)
                 .unmarshal(new CsvDataFormat("ç"))
                 .process(salesCsvProcessor)
                 .marshal(new SaleSummaryDataFormat())

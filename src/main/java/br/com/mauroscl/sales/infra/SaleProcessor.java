@@ -2,8 +2,7 @@ package br.com.mauroscl.sales.infra;
 
 import br.com.mauroscl.sales.domain.Sale;
 import br.com.mauroscl.sales.domain.SaleItem;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class SaleProcessor {
 
     private static final String ITEMS_DELIMITER = ",";
@@ -26,12 +26,10 @@ public class SaleProcessor {
 
     private static final String INVALID_ROW_MESSAGE = "Invalid sale row";
 
-    private static final Logger logger = LogManager.getLogger(SaleProcessor.class);
-
     public Optional<Sale> processSale(final List<String> saleRow) {
 
         if (saleRow.size() != 4) {
-            logInvalidRow(saleRow);
+            logInvalidRow(saleRow, new Throwable("número incorreto de colunas"));
             return Optional.empty();
         }
 
@@ -46,8 +44,7 @@ public class SaleProcessor {
 
             return Optional.of(sale);
         } catch (Exception e) {
-            logInvalidRow(saleRow);
-            logger.warn(e.getMessage());
+            logInvalidRow(saleRow, e);
             return Optional.empty();
         }
     }
@@ -76,8 +73,8 @@ public class SaleProcessor {
         return saleItem;
     }
 
-    private void logInvalidRow(List<String> saleRow) {
-        logger.warn(INVALID_ROW_MESSAGE + ": " + saleRow);
+    private void logInvalidRow(List<String> saleRow, Throwable t) {
+        log.warn(INVALID_ROW_MESSAGE + ": " + saleRow, t);
     }
 
 }

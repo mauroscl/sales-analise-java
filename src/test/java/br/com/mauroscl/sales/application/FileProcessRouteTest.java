@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import static br.com.mauroscl.sales.application.FileProcessRoute.FILE_PROCESS_ROUTE;
+import static br.com.mauroscl.sales.application.FileProcessRoute.SEDA_PROCESS_ROUTE;
 
 
 @RunWith(CamelSpringBootRunner.class)
@@ -47,7 +47,7 @@ public class FileProcessRouteTest {
                         .to(MOCK_URI_FILE_RESULT);
             }
         };
-        camelContext.getRouteDefinition(FILE_PROCESS_ROUTE).adviceWith(camelContext, routeBuilder);
+        camelContext.getRouteDefinition(SEDA_PROCESS_ROUTE).adviceWith(camelContext, routeBuilder);
 
         mockOutputFile.reset();
     }

@@ -45,7 +45,8 @@ public class SalesCsvProcessor implements Processor {
         exchange.getOut().setBody(saleSummary);
 
         //replicate header CamelFileName because it is necessary to determine the name of done file.
-        exchange.getOut().setHeader(Exchange.FILE_NAME, exchange.getIn().getHeader(Exchange.FILE_NAME));
+        ExchangeUtils.copyHeader(exchange, Exchange.FILE_NAME);
+
     }
 
 }
