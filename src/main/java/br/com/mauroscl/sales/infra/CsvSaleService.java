@@ -3,12 +3,14 @@ package br.com.mauroscl.sales.infra;
 import br.com.mauroscl.sales.domain.ICsvSaleService;
 import br.com.mauroscl.sales.domain.Sale;
 import br.com.mauroscl.sales.domain.SaleContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Slf4j
 public class CsvSaleService implements ICsvSaleService {
 
     private static final String SALESMAN_PREFIX = "001";
@@ -37,11 +39,13 @@ public class CsvSaleService implements ICsvSaleService {
                     break;
                 case SALES_PREFIX:
                     saleProcessor.processSale(row)
-                            .ifPresent(sale -> sales.add(sale));
+                            .ifPresent(sales::add);
+                    break;
+                default:
+                    log.warn("Invalid record prefix: {}. This record will be ignored: {}", rowType, row);
             }
         }
 
-        SaleContext saleContext = new SaleContext(amountSalesman, amountCustomer, sales);
-        return saleContext;
+        return new SaleContext(amountSalesman, amountCustomer, sales);
     }
 }

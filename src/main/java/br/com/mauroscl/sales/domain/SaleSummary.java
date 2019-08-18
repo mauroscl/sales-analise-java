@@ -2,7 +2,6 @@ package br.com.mauroscl.sales.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 

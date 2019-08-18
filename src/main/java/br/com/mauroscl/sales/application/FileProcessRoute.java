@@ -1,8 +1,6 @@
 package br.com.mauroscl.sales.application;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.CsvDataFormat;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,12 +9,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class FileProcessRoute extends RouteBuilder {
 
+    private static final String SEDA_BASE_URI = "hazelcast-seda:csvfile";
+    public static final String SEDA_PROCESS_ROUTE = "SEDA_ROUTE";
+
     private final int concurrentConsumers;
     private final SalesCsvProcessor salesCsvProcessor;
 
-    public static final String SEDA_PROCESS_ROUTE = "SEDA_ROUTE";
-
-    private static final String SEDA_URI = "hazelcast-seda:csvfile";
 
     public FileProcessRoute(@Value("${concurrent-consumers}") final int concurrentConsumers,
                             final SalesCsvProcessor salesCsvProcessor) {
@@ -34,12 +32,16 @@ public class FileProcessRoute extends RouteBuilder {
 
         from("file:data/in?include=.*.dat")
                 .process(exchange -> {
+                    //body must be converted to String for preventing errors when transferExchange=true
+                    //because before this conversion the body is a GenericFile class and not the file content.
                     exchange.getOut().setBody(exchange.getIn().getBody(String.class));
+                    //needs copy the header "Exchange.FILE_NAME" to be available in the next route
                     ExchangeUtils.copyHeader(exchange, Exchange.FILE_NAME);
                 })
-                .to(SEDA_URI + "?transferExchange=true" );
+                //transferExchange must be set to true for "Exchange.FILE_NAME" header to be sent to the next route
+                .to(SEDA_BASE_URI + "?transferExchange=true" );
 
-        from(createSedaUriForConsumers(SEDA_URI, concurrentConsumers))
+        from(createSedaUriForConsumers(SEDA_BASE_URI, concurrentConsumers))
                 .routeId(SEDA_PROCESS_ROUTE)
                 .unmarshal(new CsvDataFormat("ç"))
                 .process(salesCsvProcessor)

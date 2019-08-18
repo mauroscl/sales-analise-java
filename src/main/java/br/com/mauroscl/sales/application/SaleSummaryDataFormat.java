@@ -20,7 +20,7 @@ public class SaleSummaryDataFormat implements DataFormat {
     }
 
     private String convertToString(SaleSummary saleSummary) {
-        return String.format("amountSalesman=%d\r\namountCustomer=%d\r\nworstSellers=%s\r\nmostExpensiveSales=%s",
+        return String.format("amountSalesman=%d%namountCustomer=%d%nworstSellers=%s%nmostExpensiveSales=%s",
                 saleSummary.getAmountSalesman(),
                 saleSummary.getAmountCustomer(),
                 saleSummary.getWorstSellers(),

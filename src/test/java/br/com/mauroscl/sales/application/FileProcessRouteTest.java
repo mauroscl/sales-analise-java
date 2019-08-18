@@ -18,7 +18,7 @@ import static br.com.mauroscl.sales.application.FileProcessRoute.SEDA_PROCESS_RO
 
 
 @RunWith(CamelSpringBootRunner.class)
-@SpringBootTest(classes = SalesApplication.class)
+@SpringBootTest(classes = SalesApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @EnableRouteCoverage
 @MockEndpoints
 @ActiveProfiles("test")

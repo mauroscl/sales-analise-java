@@ -26,7 +26,7 @@ public class SalesCsvProcessor implements Processor {
     }
 
     @Override
-    public void process(Exchange exchange) throws Exception {
+    public void process(Exchange exchange) {
 
         log.info("File: {} Thread Id: {} - Thread Name: {}", exchange.getIn().getHeader(Exchange.FILE_NAME),
                 Thread.currentThread().getId(), Thread.currentThread().getName());
