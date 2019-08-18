@@ -1,6 +1,9 @@
 package br.com.mauroscl.sales.application;
 
-import br.com.mauroscl.sales.domain.*;
+import br.com.mauroscl.sales.domain.ICsvSaleService;
+import br.com.mauroscl.sales.domain.ISaleStatisticsService;
+import br.com.mauroscl.sales.domain.SaleContext;
+import br.com.mauroscl.sales.domain.SaleSummary;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -25,7 +28,8 @@ public class SalesCsvProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        log.info("Thread - Id: {} - Name: {}", Thread.currentThread().getId(), Thread.currentThread().getName());
+        log.info("File: {} Thread Id: {} - Thread Name: {}", exchange.getIn().getHeader(Exchange.FILE_NAME),
+                Thread.currentThread().getId(), Thread.currentThread().getName());
 
         var rows = (List<List<String>>) exchange.getIn().getBody();
 

@@ -1,5 +1,8 @@
 package br.com.mauroscl.sales.application;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.CsvDataFormat;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,16 +31,20 @@ public class FileProcessRoute extends RouteBuilder {
                 .maximumRedeliveries(0)
                 .handled(true);
 
-        from("file:data/in?include=.*.dat")
+        from("file:data/in?include=.*.dat&noop=true")
                 .routeId(FILE_PROCESS_ROUTE)
-                .log("Processando arquivo: ${file:name}")
-                .to(SEDA_URI);
+                .process(exchange -> {
+                    exchange.getOut().setBody(exchange.getIn().getBody(String.class));
+                    exchange.getOut().setHeader(Exchange.FILE_NAME, exchange.getIn().getHeader(Exchange.FILE_NAME));
+                })
+                .to(SEDA_URI + "?transferExchange=true" );
 
         from(createSedaUriForConsumers(SEDA_URI, concurrentConsumers))
                 .unmarshal(new CsvDataFormat("ç"))
                 .process(salesCsvProcessor)
                 .marshal(new SaleSummaryDataFormat())
-                .to("file:data/out?fileName=${file:name.noext}.done.${file:ext}");
+                .to("file:data/out?fileName=${file:name.noext}.done.${file:ext}")
+        ;
     }
 
     private String createSedaUriForConsumers(String baseUri, int concurrentConsumers) {

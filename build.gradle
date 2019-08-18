@@ -21,7 +21,8 @@ ext {
 dependencies {
     implementation "org.apache.camel:camel-spring-boot-starter:${camelVersion}"
     compile "org.apache.camel:camel-csv-starter:${camelVersion}"
-    compile "org.apache.camel:camel-hazelcast:${camelVersion}"
+    //compile "org.apache.camel:camel-hazelcast:${camelVersion}"
+    compile "org.apache.camel:camel-hazelcast-starter:${camelVersion}"
     testCompile "org.apache.camel:camel-test-spring:${camelVersion}"
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
