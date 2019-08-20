@@ -69,10 +69,10 @@ public class FileProcessCamelRouteTest {
                         "003ç08ç[1-34-10,2-33-1.50,3-40-0.10]çRenato";
 
         final String expectedOutputFileContent =
-                "amountSalesman=2\r\n" +
-                        "amountCustomer=2\r\n" +
-                        "worstSellers=[Renato]\r\n" +
-                        "mostExpensiveSales=[10]";
+                String.format( "amountSalesman=2%n" +
+                        "amountCustomer=2%n" +
+                        "worstSellers=[Renato]%n" +
+                        "mostExpensiveSales=[10]");
 
         mockOutputFile.expectedBodiesReceived(expectedOutputFileContent);
 
