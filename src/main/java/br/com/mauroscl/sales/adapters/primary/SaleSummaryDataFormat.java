@@ -15,8 +15,8 @@ class SaleSummaryDataFormat implements DataFormat {
     }
 
     @Override
-    public Object unmarshal(final Exchange exchange, final InputStream stream) throws Exception {
-        return null;
+    public Object unmarshal(final Exchange exchange, final InputStream stream) {
+        throw new UnsupportedOperationException("unmarshal is not necessary yet.");
     }
 
     private String convertToString(SaleSummary saleSummary) {

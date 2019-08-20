@@ -39,7 +39,7 @@ class FileProcessCamelRoute extends RouteBuilder {
                 .maximumRedeliveries(0)
                 .handled(true);
 
-        from("file:" +  inputPath + "?include=.*.dat")
+        from("file:" + inputPath + "?include=.*.dat")
                 .process(exchange -> {
                     //body must be converted to String for preventing errors when transferExchange=true
                     //because before this conversion the body is a GenericFile class and not the file content.
@@ -47,15 +47,15 @@ class FileProcessCamelRoute extends RouteBuilder {
                     //needs copy the header "Exchange.FILE_NAME" to be available in the next route
                     ExchangeUtils.copyHeader(exchange, Exchange.FILE_NAME);
                 })
-                //transferExchange must be set to true for "Exchange.FILE_NAME" header to be sent to the next route
-                .to(SEDA_BASE_URI + "?transferExchange=true" );
+                //transferExchange must be set to true for the "Exchange.FILE_NAME" header to be sent to the next route
+                .to(SEDA_BASE_URI + "?transferExchange=true");
 
         from(createSedaUriForConsumers(SEDA_BASE_URI, concurrentConsumers))
                 .routeId(SEDA_PROCESS_ROUTE)
                 .unmarshal(new CsvDataFormat(COLUMN_DELIMITER))
                 .process(salesCsvCamelProcessor)
                 .marshal(new SaleSummaryDataFormat())
-                .to("file:"+ outputPath + "?fileName=${file:name.noext}.done.${file:ext}")
+                .to("file:" + outputPath + "?fileName=${file:name.noext}.done.${file:ext}")
         ;
     }
 

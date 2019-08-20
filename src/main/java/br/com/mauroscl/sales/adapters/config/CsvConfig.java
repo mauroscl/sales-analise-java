@@ -1,6 +1,9 @@
 package br.com.mauroscl.sales.adapters.config;
 
 public class CsvConfig {
+
+    private CsvConfig(){}
+
     public static final String COLUMN_DELIMITER = "ç";
 
     public static final String SALEITEMS_ITEMS_DELIMITER = ",";

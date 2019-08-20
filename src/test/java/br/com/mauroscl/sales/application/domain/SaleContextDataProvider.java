@@ -2,9 +2,9 @@ package br.com.mauroscl.sales.application.domain;
 
 import java.util.List;
 
-public class SaleContextDataProvider {
+class SaleContextDataProvider {
 
-    public static SaleContext getTwoSales() {
+    static SaleContext getTwoSales() {
         Sale sale1 = new Sale("01", "Mauro");
 
         SaleItem saleItem1 = new SaleItem("001",10, 50);
@@ -26,7 +26,7 @@ public class SaleContextDataProvider {
         return new SaleContext(2, 1, List.of(sale1, sale2));
     }
 
-    public static SaleContext generateWorstSellersTied() {
+    static SaleContext generateWorstSellersTied() {
         Sale sale1 = new Sale("01", "Mauro");
 
         SaleItem saleItem1 = new SaleItem("001",10, 50);
@@ -48,7 +48,7 @@ public class SaleContextDataProvider {
         return new SaleContext(3, 1, List.of(sale1, sale2, sale3));
     }
 
-    public static SaleContext generateMostExpensiveSalesTied() {
+    static SaleContext generateMostExpensiveSalesTied() {
         Sale sale1 = new Sale("01", "Mauro");
 
     SaleItem saleItem1 = new SaleItem("001", 10, 50);

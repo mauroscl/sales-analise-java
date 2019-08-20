@@ -1,9 +1,10 @@
 package br.com.mauroscl.sales.application.domain;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class SaleTest {
 
@@ -17,6 +18,6 @@ public class SaleTest {
 
         sale.addItems(List.of(saleItem1, saleItem2));
 
-        Assert.assertTrue(sale.getTotal().equals(593.5) );
+        assertEquals(593.5, sale.getTotal(), 0.0);
     }
 }
