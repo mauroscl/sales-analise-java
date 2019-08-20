@@ -9,37 +9,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static br.com.mauroscl.sales.adapters.config.CsvConfig.*;
+
 @Component
 @Slf4j
 class CsvSaleDeserializer {
 
-    private static final String ITEMS_DELIMITER = ",";
-    private static final String VALUES_DELIMITER = "-";
-
-    private static final int SALE_ID_INDEX = 1;
-    private static final int SALES_ITEMS_INDEX = 2;
-    private static final int SALESMAN_INDEX = 3;
-
-    private static final int SALEITEM_ID_INDEX = 0;
-    private static final int SALEITEM_QUANTITY_INDEX = 1;
-    private static final int SALEITEM_PRICE_INDEX = 2;
-
-    private static final int EXPECTED_SALE_COLUMNS = 4;
-
     Optional<Sale> deserializeSale(final List<String> saleRow) {
 
-        if (saleRow.size() != EXPECTED_SALE_COLUMNS) {
+        if (saleRow.size() != SALE_COLUMNS) {
             log.warn("Invalid number of columns. This record will be ignored - actual: {} - expected: {}, row: {}",
-                    saleRow.size(), EXPECTED_SALE_COLUMNS, saleRow);
+                    saleRow.size(), SALE_COLUMNS, saleRow);
             return Optional.empty();
         }
 
         try {
             String saleId = saleRow.get(SALE_ID_INDEX);
-            String salesman = saleRow.get(SALESMAN_INDEX);
+            String salesman = saleRow.get(SALE_SALESMAN_INDEX);
             Sale sale = new Sale(saleId, salesman);
 
-            String serializedSaleItems = saleRow.get(SALES_ITEMS_INDEX);
+            String serializedSaleItems = saleRow.get(SALE_ITEMS_INDEX);
             List<SaleItem> saleItems = deserializeItems(serializedSaleItems);
             sale.addItems(saleItems);
 
@@ -55,7 +44,7 @@ class CsvSaleDeserializer {
 
         String[] splitedItems = serializedSaleItems
                 .substring(1, serializedSaleItems.length() - 1)
-                .split(ITEMS_DELIMITER);
+                .split(SALEITEMS_ITEMS_DELIMITER);
         for (final String splitedItem : splitedItems) {
             items.add(deserializeItem(splitedItem));
         }
@@ -63,7 +52,7 @@ class CsvSaleDeserializer {
     }
 
     private SaleItem deserializeItem(final String serializedItem) {
-        String[] splitedValues = serializedItem.split(VALUES_DELIMITER);
+        String[] splitedValues = serializedItem.split(SALEITEMS_VALUES_DELIMITER);
 
         String itemId = splitedValues[SALEITEM_ID_INDEX];
         double quantity = Double.parseDouble(splitedValues[SALEITEM_QUANTITY_INDEX]);

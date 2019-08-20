@@ -6,6 +6,8 @@ import org.apache.camel.model.dataformat.CsvDataFormat;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import static br.com.mauroscl.sales.adapters.config.CsvConfig.COLUMN_DELIMITER;
+
 @Component
 public
 class FileProcessCamelRoute extends RouteBuilder {
@@ -44,7 +46,7 @@ class FileProcessCamelRoute extends RouteBuilder {
 
         from(createSedaUriForConsumers(SEDA_BASE_URI, concurrentConsumers))
                 .routeId(SEDA_PROCESS_ROUTE)
-                .unmarshal(new CsvDataFormat("ç"))
+                .unmarshal(new CsvDataFormat(COLUMN_DELIMITER))
                 .process(salesCsvCamelProcessor)
                 .marshal(new SaleSummaryDataFormat())
                 .to("file:data/out?fileName=${file:name.noext}.done.${file:ext}")
