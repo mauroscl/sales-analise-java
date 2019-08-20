@@ -16,12 +16,18 @@ class FileProcessCamelRoute extends RouteBuilder {
     public static final String SEDA_PROCESS_ROUTE = "SEDA_ROUTE";
 
     private final int concurrentConsumers;
+    private final String inputPath;
+    private final String outputPath;
     private final SalesCsvCamelProcessor salesCsvCamelProcessor;
 
 
-    FileProcessCamelRoute(@Value("${concurrent-consumers}") final int concurrentConsumers,
-                                 final SalesCsvCamelProcessor salesCsvCamelProcessor) {
+    FileProcessCamelRoute(@Value("${app.concurrent-consumers}") final int concurrentConsumers,
+                          @Value("${app.input-path}") final String inputPath,
+                          @Value("${app.output-path}") final String outputPath,
+                          final SalesCsvCamelProcessor salesCsvCamelProcessor) {
         this.concurrentConsumers = concurrentConsumers;
+        this.inputPath = inputPath;
+        this.outputPath = outputPath;
         this.salesCsvCamelProcessor = salesCsvCamelProcessor;
     }
 
@@ -33,7 +39,7 @@ class FileProcessCamelRoute extends RouteBuilder {
                 .maximumRedeliveries(0)
                 .handled(true);
 
-        from("file:data/in?include=.*.dat")
+        from("file:" +  inputPath + "?include=.*.dat")
                 .process(exchange -> {
                     //body must be converted to String for preventing errors when transferExchange=true
                     //because before this conversion the body is a GenericFile class and not the file content.
@@ -49,7 +55,7 @@ class FileProcessCamelRoute extends RouteBuilder {
                 .unmarshal(new CsvDataFormat(COLUMN_DELIMITER))
                 .process(salesCsvCamelProcessor)
                 .marshal(new SaleSummaryDataFormat())
-                .to("file:data/out?fileName=${file:name.noext}.done.${file:ext}")
+                .to("file:"+ outputPath + "?fileName=${file:name.noext}.done.${file:ext}")
         ;
     }
 
