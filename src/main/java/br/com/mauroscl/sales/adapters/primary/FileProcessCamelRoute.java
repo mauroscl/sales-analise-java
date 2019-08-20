@@ -1,4 +1,4 @@
-package br.com.mauroscl.sales.application;
+package br.com.mauroscl.sales.adapters.primary;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
@@ -7,19 +7,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FileProcessRoute extends RouteBuilder {
+public
+class FileProcessCamelRoute extends RouteBuilder {
 
     private static final String SEDA_BASE_URI = "hazelcast-seda:csvfile";
     public static final String SEDA_PROCESS_ROUTE = "SEDA_ROUTE";
 
     private final int concurrentConsumers;
-    private final SalesCsvProcessor salesCsvProcessor;
+    private final SalesCsvCamelProcessor salesCsvCamelProcessor;
 
 
-    public FileProcessRoute(@Value("${concurrent-consumers}") final int concurrentConsumers,
-                            final SalesCsvProcessor salesCsvProcessor) {
+    FileProcessCamelRoute(@Value("${concurrent-consumers}") final int concurrentConsumers,
+                                 final SalesCsvCamelProcessor salesCsvCamelProcessor) {
         this.concurrentConsumers = concurrentConsumers;
-        this.salesCsvProcessor = salesCsvProcessor;
+        this.salesCsvCamelProcessor = salesCsvCamelProcessor;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class FileProcessRoute extends RouteBuilder {
         from(createSedaUriForConsumers(SEDA_BASE_URI, concurrentConsumers))
                 .routeId(SEDA_PROCESS_ROUTE)
                 .unmarshal(new CsvDataFormat("ç"))
-                .process(salesCsvProcessor)
+                .process(salesCsvCamelProcessor)
                 .marshal(new SaleSummaryDataFormat())
                 .to("file:data/out?fileName=${file:name.noext}.done.${file:ext}")
         ;

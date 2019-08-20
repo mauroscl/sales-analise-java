@@ -1,4 +1,4 @@
-package br.com.mauroscl.sales.application;
+package br.com.mauroscl.sales.adapters.primary;
 
 import br.com.mauroscl.sales.SalesApplication;
 import org.apache.camel.*;
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import static br.com.mauroscl.sales.application.FileProcessRoute.SEDA_PROCESS_ROUTE;
+import static br.com.mauroscl.sales.adapters.primary.FileProcessCamelRoute.SEDA_PROCESS_ROUTE;
 
 
 @RunWith(CamelSpringBootRunner.class)
@@ -22,7 +22,7 @@ import static br.com.mauroscl.sales.application.FileProcessRoute.SEDA_PROCESS_RO
 @EnableRouteCoverage
 @MockEndpoints
 @ActiveProfiles("test")
-public class FileProcessRouteTest {
+public class FileProcessCamelRouteTest {
 
     private static final String URI_FILE_INPUT = "file:data/in";
     private static final String URI_FILE_RESULT = "file:data/out";

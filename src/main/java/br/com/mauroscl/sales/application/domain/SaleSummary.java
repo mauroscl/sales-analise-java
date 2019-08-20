@@ -1,4 +1,4 @@
-package br.com.mauroscl.sales.domain;
+package br.com.mauroscl.sales.application.domain;
 
 import lombok.Builder;
 import lombok.Getter;

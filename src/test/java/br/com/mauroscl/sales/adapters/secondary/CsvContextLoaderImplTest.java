@@ -1,19 +1,19 @@
-package br.com.mauroscl.sales.infra;
+package br.com.mauroscl.sales.adapters.secondary;
 
-import br.com.mauroscl.sales.domain.ICsvSaleService;
-import br.com.mauroscl.sales.domain.SaleContext;
+import br.com.mauroscl.sales.application.domain.SaleContext;
+import br.com.mauroscl.sales.application.ports.driven.SaleContextLoader;
 import org.junit.Test;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class CsvSaleServiceTest {
+public class CsvContextLoaderImplTest {
 
     @Test
-    public void mustLoadSaleContext() throws Exception {
-        SaleProcessor saleProcessor = new SaleProcessor();
-        ICsvSaleService csvSaleService = new CsvSaleService(saleProcessor);
+    public void mustLoadSaleContext() {
+        CsvSaleDeserializer saleProcessor = new CsvSaleDeserializer();
+        SaleContextLoader csvSaleService = new CsvContextLoaderImpl(saleProcessor);
 
         var csvRows = List.of(
                 List.of("001", "1234567891234", "Diego", "50000"),

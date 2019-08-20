@@ -1,13 +1,13 @@
-package br.com.mauroscl.sales.application;
+package br.com.mauroscl.sales.adapters.primary;
 
-import br.com.mauroscl.sales.domain.SaleSummary;
+import br.com.mauroscl.sales.application.domain.SaleSummary;
 import org.apache.camel.Exchange;
 import org.apache.camel.spi.DataFormat;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class SaleSummaryDataFormat implements DataFormat {
+class SaleSummaryDataFormat implements DataFormat {
     @Override
     public void marshal(final Exchange exchange, final Object graph, final OutputStream stream) throws Exception {
         SaleSummary saleSummary = exchange.getIn().getBody(SaleSummary.class);

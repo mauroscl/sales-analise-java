@@ -1,7 +1,7 @@
-package br.com.mauroscl.sales.infra;
+package br.com.mauroscl.sales.adapters.secondary;
 
-import br.com.mauroscl.sales.domain.Sale;
-import br.com.mauroscl.sales.domain.SaleItem;
+import br.com.mauroscl.sales.application.domain.Sale;
+import br.com.mauroscl.sales.application.domain.SaleItem;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-public class SaleProcessor {
+class CsvSaleDeserializer {
 
     private static final String ITEMS_DELIMITER = ",";
     private static final String VALUES_DELIMITER = "-";
@@ -26,7 +26,7 @@ public class SaleProcessor {
 
     private static final int EXPECTED_SALE_COLUMNS = 4;
 
-    public Optional<Sale> processSale(final List<String> saleRow) {
+    Optional<Sale> deserializeSale(final List<String> saleRow) {
 
         if (saleRow.size() != EXPECTED_SALE_COLUMNS) {
             log.warn("Invalid number of columns. This record will be ignored - actual: {} - expected: {}, row: {}",
@@ -40,7 +40,7 @@ public class SaleProcessor {
             Sale sale = new Sale(saleId, salesman);
 
             String serializedSaleItems = saleRow.get(SALES_ITEMS_INDEX);
-            List<SaleItem> saleItems = processItens(serializedSaleItems);
+            List<SaleItem> saleItems = deserializeItems(serializedSaleItems);
             sale.addItems(saleItems);
 
             return Optional.of(sale);
@@ -50,19 +50,19 @@ public class SaleProcessor {
         }
     }
 
-    private List<SaleItem> processItens(final String serializedSaleItems) {
+    private List<SaleItem> deserializeItems(final String serializedSaleItems) {
         var items = new ArrayList<SaleItem>();
 
         String[] splitedItems = serializedSaleItems
                 .substring(1, serializedSaleItems.length() - 1)
                 .split(ITEMS_DELIMITER);
         for (final String splitedItem : splitedItems) {
-            items.add(processItem(splitedItem));
+            items.add(deserializeItem(splitedItem));
         }
         return items;
     }
 
-    private SaleItem processItem(final String serializedItem) {
+    private SaleItem deserializeItem(final String serializedItem) {
         String[] splitedValues = serializedItem.split(VALUES_DELIMITER);
 
         String itemId = splitedValues[SALEITEM_ID_INDEX];

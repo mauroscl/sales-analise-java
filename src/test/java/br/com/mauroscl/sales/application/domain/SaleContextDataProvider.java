@@ -1,13 +1,10 @@
-package br.com.mauroscl.sales.dataprovider;
-
-import br.com.mauroscl.sales.domain.Sale;
-import br.com.mauroscl.sales.domain.SaleItem;
+package br.com.mauroscl.sales.application.domain;
 
 import java.util.List;
 
-public class SalesDataProvider {
+public class SaleContextDataProvider {
 
-    public static List<Sale> getTwoSales() {
+    public static SaleContext getTwoSales() {
         Sale sale1 = new Sale("01", "Mauro");
 
         SaleItem saleItem1 = new SaleItem("001",10, 50);
@@ -26,10 +23,10 @@ public class SalesDataProvider {
         //total = 12*45 + 10*34 = 880
         sale2.addItems(List.of(saleItem3, saleItem4));
 
-        return List.of(sale1, sale2);
+        return new SaleContext(2, 1, List.of(sale1, sale2));
     }
 
-    public static List<Sale> generateWorstSellersTied() {
+    public static SaleContext generateWorstSellersTied() {
         Sale sale1 = new Sale("01", "Mauro");
 
         SaleItem saleItem1 = new SaleItem("001",10, 50);
@@ -48,10 +45,10 @@ public class SalesDataProvider {
         //total = 600
         sale3.addItems(List.of(saleItem3));
 
-        return List.of(sale1, sale2, sale3);
+        return new SaleContext(3, 1, List.of(sale1, sale2, sale3));
     }
 
-    public static List<Sale> generateMostExpensiveSalesTied() {
+    public static SaleContext generateMostExpensiveSalesTied() {
         Sale sale1 = new Sale("01", "Mauro");
 
     SaleItem saleItem1 = new SaleItem("001", 10, 50);
@@ -70,7 +67,8 @@ public class SalesDataProvider {
         //total = 900
         sale3.addItems(List.of(saleItem3));
 
-        return List.of(sale1, sale2, sale3);
+        return new SaleContext(3, 1, List.of(sale1, sale2, sale3));
+
     }
 
 }

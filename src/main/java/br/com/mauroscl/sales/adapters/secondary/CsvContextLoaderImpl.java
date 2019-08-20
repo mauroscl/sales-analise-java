@@ -1,8 +1,8 @@
-package br.com.mauroscl.sales.infra;
+package br.com.mauroscl.sales.adapters.secondary;
 
-import br.com.mauroscl.sales.domain.ICsvSaleService;
-import br.com.mauroscl.sales.domain.Sale;
-import br.com.mauroscl.sales.domain.SaleContext;
+import br.com.mauroscl.sales.application.domain.Sale;
+import br.com.mauroscl.sales.application.domain.SaleContext;
+import br.com.mauroscl.sales.application.ports.driven.SaleContextLoader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -11,20 +11,23 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class CsvSaleService implements ICsvSaleService {
+class CsvContextLoaderImpl implements SaleContextLoader {
 
     private static final String SALESMAN_PREFIX = "001";
     private static final String CUSTOMER_PREFIX = "002";
     private static final String SALES_PREFIX = "003";
 
-    private final SaleProcessor saleProcessor;
+    private final CsvSaleDeserializer saleDeserializer;
 
-    public CsvSaleService(final SaleProcessor saleProcessor) {
-        this.saleProcessor = saleProcessor;
+    CsvContextLoaderImpl(final CsvSaleDeserializer saleDeserializer) {
+        this.saleDeserializer = saleDeserializer;
     }
 
     @Override
-    public SaleContext loadContext(final List<List<String>> csvRows) {
+    public SaleContext loadContext(final Object saleContent ) {
+
+        final var csvRows = (List<List<String>>) saleContent;
+
         int amountSalesman = 0;
         int amountCustomer = 0;
         List<Sale> sales = new ArrayList<>();
@@ -38,7 +41,7 @@ public class CsvSaleService implements ICsvSaleService {
                     amountCustomer++;
                     break;
                 case SALES_PREFIX:
-                    saleProcessor.processSale(row)
+                    saleDeserializer.deserializeSale(row)
                             .ifPresent(sales::add);
                     break;
                 default:

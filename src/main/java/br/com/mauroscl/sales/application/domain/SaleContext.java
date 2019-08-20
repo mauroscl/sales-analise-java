@@ -1,16 +1,29 @@
-package br.com.mauroscl.sales.domain;
+package br.com.mauroscl.sales.application.domain;
 
-import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Component
-public class SaleStatisticsService implements ISaleStatisticsService {
-    @Override
-    public List<String> getMostExpensiveSales(List<Sale> sales) {
+@AllArgsConstructor
+@Getter
+public class SaleContext {
+    private int amountSalesman;
+    private int amountCustomer;
+    private List<Sale> sales;
+
+    private SaleContext() {
+        sales = new ArrayList<>();
+    }
+    public static SaleContext emptyContext() {
+        return new SaleContext();
+    }
+
+    public List<String> getMostExpensiveSales() {
         if (sales.isEmpty()){
             return Collections.emptyList();
         }
@@ -23,8 +36,7 @@ public class SaleStatisticsService implements ISaleStatisticsService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<String> getWorstSellers(List<Sale> sales) {
+    public List<String> getWorstSellers() {
         if (sales.isEmpty()){
             return Collections.emptyList();
         }

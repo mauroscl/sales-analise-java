@@ -1,4 +1,4 @@
-package br.com.mauroscl.sales.application;
+package br.com.mauroscl.sales.adapters.primary;
 
 import org.apache.camel.Exchange;
 
