@@ -108,6 +108,26 @@ Exemplo de log de processamento:
 2019-08-20 07:37:59.273  INFO 4460 --- [-seda://csvfile] b.c.m.s.a.p.SalesCsvCamelProcessor       : File: arquivo1.dat Thread Id: 115 - Thread Name: Camel (camel-1) thread #2 - hazelcast-seda://csvfile
 2019-08-20 07:37:59.288  INFO 4460 --- [-seda://csvfile] b.c.m.s.a.p.SalesCsvCamelProcessor       : File: arquivo2.dat Thread Id: 116 - Thread Name: Camel (camel-1) thread #3 - hazelcast-seda://csvfile
 ```
+A escalabilidade pode ser feita de duas formas:
+- configurando o número de consumidores concorrentes dentro da instância de cada aplicação através da propriedade `app.concurrent-consumers`
+- executando mais de uma instância da aplicação
+
+Segue um log de execução em um cenário contendo  duas instâncias da aplicação e dois consumidores por instância.
+Foram processados 5 arquivos: arquivo1-identificador-invalido.dat, arquivo1-linha003-errada.dat, vazio.dat
+
+**Log PID 2040**
+```
+2019-08-21 07:00:27.046  INFO 2040 --- [-seda://csvfile] b.c.m.s.a.p.SalesCsvCamelProcessor       : File: arquivo1-identificador-invalido.dat Thread Id: 125 - Thread Name: Camel (camel-1) thread #3 - hazelcast-seda://csvfile
+2019-08-21 07:00:27.046  INFO 2040 --- [-seda://csvfile] b.c.m.s.a.p.SalesCsvCamelProcessor       : File: arquivo1-linha003-errada.dat Thread Id: 124 - Thread Name: Camel (camel-1) thread #2 - hazelcast-seda://csvfile
+2019-08-21 07:00:27.077  INFO 2040 --- [-seda://csvfile] b.c.m.s.a.p.SalesCsvCamelProcessor       : File: vazio.dat Thread Id: 124 - Thread Name: Camel (camel-1) thread #2 - hazelcast-seda://csvfile
+```
+**Log PID 11864**
+```
+2019-08-21 07:00:27.058  INFO 11864 --- [-seda://csvfile] b.c.m.s.a.p.SalesCsvCamelProcessor       : File: arquivo1.dat Thread Id: 115 - Thread Name: Camel (camel-1) thread #2 - hazelcast-seda://csvfile
+2019-08-21 07:00:27.058  INFO 11864 --- [-seda://csvfile] b.c.m.s.a.p.SalesCsvCamelProcessor       : File: arquivo2.dat Thread Id: 116 - Thread Name: Camel (camel-1) thread #3 - hazelcast-seda://csvfile
+```
+
+Podemos perceber que os arquivos foram distribuídos entre as duas aplicações, com PIDs 2040 e 11864 e dentro dessas aplicações distribuío entre as threads dos consumidores concorrentes.
 
 ## Configurações
 É possível realizar as seguintes configurações no arquivo `application.properties`
