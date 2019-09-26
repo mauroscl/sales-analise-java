@@ -145,7 +145,7 @@ app.output-path=data/out
 - Clonar o código fonte: `git clone https://github.com/mauroscl/sales-analise-java.git`
 - A partir do diretório raiz dos fontes aplicação pode ser rodado com o comando
 ```gradle bootRun``` ou ```./gradlew bootRun```
-- Criar arquivos configuradas na pasta de entrada configurar na aplicação. A pasta deve ser criada manualmente, caso não exista. Na configuração padrão o diretório de entrada é o caminho `data/in`, a partir do diretório raiz do código fonte. 
+- Criar arquivos de vendas na pasta de entrada configurada na aplicação. A pasta deve ser criada manualmente, caso não exista. Na configuração padrão o diretório de entrada é o caminho `data/in`, a partir do diretório raiz do código fonte. 
 
 Importante destacar que foram adicionadas alguns argumentos por conta do Hazelcast para melhorar a sua performance, sugeridos pelo próprio log do Hazelcast.
 
